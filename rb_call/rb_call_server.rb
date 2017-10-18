@@ -7,23 +7,23 @@ class RbCall
     @@variables = {}
   end
 
-  def self.store_object( obj )
+  def self.store_object(obj)
     key = obj.object_id
-    if @@variables.has_key?( key )
+    if @@variables.has_key?(key)
       @@variables[key][1] += 1
     else
       @@variables[key] = [obj, 1]
     end
   end
 
-  def self.find_object( obj_id )
+  def self.find_object(obj_id)
     @@variables[obj_id][0]
   end
 
   private
-  def send_impl( obj, method_name, args, kwargs)
+  def send_impl(obj, method_name, args, kwargs)
     # See https://bugs.ruby-lang.org/issues/12022
-    kwargs = kwargs.map {|k,v| [k.to_sym,v]}.to_h
+    kwargs = kwargs.map {|k, v| [k.to_sym, v]}.to_h
     if kwargs.empty?
       ret = obj.send(method_name, *args)
     else
@@ -33,12 +33,12 @@ class RbCall
   end
 
   public
-  def send_method( objid, method_name, args = [], kwargs = {})
+  def send_method(objid, method_name, args = [], kwargs = {})
     obj = self.class.find_object(objid)
-    send_impl( obj, method_name, args, kwargs )
+    send_impl(obj, method_name, args, kwargs)
   end
 
-  def del_object( objid )
+  def del_object(objid)
     @@variables[objid][1] -= 1
     if @@variables[objid][1] == 0
       @@variables.delete(objid)
@@ -53,14 +53,14 @@ class RbCall
 end
 
 Object.class_eval do
-  def self.from_msgpack_ext( data )
-    rb_cls, obj_id = MessagePack.unpack( data )
-    RbCall.find_object( obj_id )
+  def self.from_msgpack_ext(data)
+    rb_cls, obj_id = MessagePack.unpack(data)
+    RbCall.find_object(obj_id)
   end
 
   def to_msgpack_ext
-    RbCall.store_object( self )
-    MessagePack.pack( [self.class.to_s, self.object_id] )
+    RbCall.store_object(self)
+    MessagePack.pack([self.class.to_s, self.object_id])
   end
 end
 

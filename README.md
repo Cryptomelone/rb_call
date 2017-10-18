@@ -1,42 +1,31 @@
 # RbCall
 
-[![Build Status](https://travis-ci.org/yohm/rb_call.svg?branch=master)](https://travis-ci.org/yohm/rb_call)
-
 ## What's this
 
-A library to call Ruby methods from a Python script.
-You can combine a Python script and Ruby libraries.
+A library to call Ruby methods from a Python script.<br>
+You can combine a Python script and Ruby libraries.<br>
+**This repository's library was modified by [cryptomelone](https://github.com/cryptomelone). original: [RbCall](https://github.com/yohm/rb_call) by [rohm](https://github.com/yohm).**
+
 
 ## Getting Started
 
-Use Ruby 2.x.
-
-Install the dependent gems as follows.
-
 ```
-gem install bundler
-bundle
-```
-
-Use Python 3 and then install `msgpack-rpc-python` package.
-
-```
-pip install msgpack-rpc-python
-```
-
-Execute a sample script.
-
-```
-python rb_call.py
+git clone git@github.com:Cryptomelone/rb_call.git
+cd rb_call
+gem install msgpack-rpc
+pip3 instlal msgpack-python
+pip3 install msgpack-rpc-python
+python3 setup.py install
 ```
 
 ## Usage
 
-Here is a sample code.
-Call `RubySession()` to invoke a Ruby process. The following sample demonstrate how to use RubySession object.
+Call `rb_call.RubySession()` to invoke a Ruby process. The following sample demonstrate how to use RubySession object.
 
 ```py3
-rb = RubySession()                            # Launch a Ruby process
+import rb_call
+
+rb = rb_call.RubySession()                    # Launch a Ruby process
 rb.require("json")                            # `require "json"`
 JSON = rb.const('JSON')                       # get JSON class (This is a Ruby class.)
 print( JSON.dump( ['foo','bar','baz'] ) )     # call method against JSON class
@@ -146,18 +135,9 @@ An instance of RubySession, `rb`, has several methods.
 To run the test,
 
 ```
-python -m unittest discover -v
+python setup.py test
 ```
-
 
 ## License
 
-The MIT License (MIT)
-Copyright (c) 2016 RIKEN AICS
-
-Permission is hereby granted, free of charge, to any person obtaining a copy of this software and associated documentation files (the "Software"), to deal in the Software without restriction, including without limitation the rights to use, copy, modify, merge, publish, distribute, sublicense, and/or sell copies of the Software, and to permit persons to whom the Software is furnished to do so, subject to the following conditions:
-
-The above copyright notice and this permission notice shall be included in all copies or substantial portions of the Software.
-
-THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
-
+See [LICENSE](LICENSE).

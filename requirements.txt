@@ -1,0 +1,2 @@
+msgpack-python
+msgpack-rpc-python
